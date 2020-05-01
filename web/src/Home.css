@@ -1,0 +1,11 @@
+.Home {
+  text-align: center;
+}
+
+.Home > p {
+  text-align: center;
+}
+
+.Home > div > .btn {
+  margin: 5px;
+}
