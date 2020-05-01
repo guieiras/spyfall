@@ -1,0 +1,12 @@
+.Lobby {
+  text-align: center;
+}
+
+.Lobby > ul {
+  padding: 0;
+}
+
+.Lobby > ul > li {
+  list-style: none;
+  margin: 5px;
+}

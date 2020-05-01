@@ -1,12 +1,22 @@
 import React from 'react';
 import Home from './Home';
+import Lobby from './Lobby';
 import './App.css';
 
-function App() {
+function App({ socket }) {
+  const [gameState, setGameState] = React.useState('home');
+  const [lobby, setLobby] = React.useState({});
+
+  socket.on('lobby', (lobby) => {
+    setLobby(lobby);
+    setGameState('lobby');
+  });
+
   return (
     <div className="App">
       <h1>Spyfall!</h1>
-      <Home />
+      { gameState === 'home' && <Home socket={socket} /> }
+      { gameState === 'lobby' && <Lobby lobby={lobby} socket={socket} /> }
     </div>
   );
 }
