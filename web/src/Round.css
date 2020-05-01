@@ -1,0 +1,17 @@
+.Round {
+  text-align: center;
+}
+
+.Round > ul {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Round > ul > li {
+  list-style: none;
+  flex: 1 0 18%;
+  border: 1px solid gray;
+  padding: 4px;
+  color: gray;
+}
