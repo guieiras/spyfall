@@ -1,5 +1,8 @@
-const app = require('express')();
+const express = require('express');
 const cors = require('cors');
+const path = require('path');
+
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
@@ -10,8 +13,9 @@ const rooms = {};
 
 app.use(cors());
 app.get('/', (req, res) => {
-  res.send('<h1>Spyfall</h1>');
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+app.use(express.static('build'));
 
 function roomLobby(room) {
   return {
@@ -73,6 +77,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(3001, () => {
-  console.log('Listening on *:3001');
+http.listen(parseInt(process.env.PORT || '3001'), () => {
+  console.log('Listening');
 });
