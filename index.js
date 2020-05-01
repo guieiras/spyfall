@@ -4,6 +4,8 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 const randomstring = require('randomstring');
+const source = require('./source');
+const shuffle = require('shuffle-array');
 const rooms = {};
 
 app.use(cors());
@@ -16,6 +18,19 @@ function roomLobby(room) {
     id: room.id,
     players: Object.keys(room.players).map((socketId) => room.players[socketId].player)
   }
+}
+
+function dealCards(room) {
+  const places = Object.keys(source.places);
+  const place = places[Math.floor(Math.random() * places.length)];
+  const cards = shuffle(source.roles[place]);
+  shuffle(Object.keys(room.players)).forEach((socketId, i) => {
+    const socket = room.players[socketId];
+    socket.emit('round', {
+      place: i === 0 ? '???' : source.places[place],
+      role: i === 0 ?  'Espião' : cards[i - 1]
+    });
+  });
 }
 
 io.on('connection', (socket) => {
@@ -50,6 +65,11 @@ io.on('connection', (socket) => {
         room.players[socketId].emit('lobby', roomLobby(room));
       });
     }
+  });
+
+  socket.on('round', () => {
+    socket.room.state = 'play';
+    dealCards(socket.room);
   });
 });
 
