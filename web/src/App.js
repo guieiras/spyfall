@@ -15,8 +15,9 @@ function App({ socket }) {
   });
 
   socket.on('round', (round) => {
-    setRound(round);
+    setRound(null);
     setGameState('round');
+    setTimeout(() => { setRound(round); }, 1500);
   });
 
   return (
