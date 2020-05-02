@@ -27,7 +27,7 @@ export default function Round({ round, socket }) {
         Lista de Lugares
       </p>
       <ul>
-        { Object.values(places).sort().map((place) => <li>{place}</li>)}
+        { Object.values(places).sort().map((place) => <li key={place}>{place}</li>)}
       </ul>
       <button onClick={newRound}>
         Embaralhar
