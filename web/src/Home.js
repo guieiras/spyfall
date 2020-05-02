@@ -6,10 +6,12 @@ export default function Home({ socket }) {
   const [roomCode, setRoomCode] = React.useState('');
 
   function createRoom() {
+    if(!name) { return; }
     socket.emit('new room', { player: name });
   }
 
   function joinRoom() {
+    if (!name || !roomCode) { return; }
     socket.emit('join room', { player: name, room: roomCode });
   }
 
