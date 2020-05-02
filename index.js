@@ -44,7 +44,8 @@ io.on('connection', (socket) => {
     const room = socket.room;
     if (room) {
       delete room.players[socket.id];
-      if (room.players === 0) {
+      if (Object.keys(room.players).length === 0) {
+        console.log('removed room ' + room.id);
         delete rooms[room.id];
       }
     }
@@ -54,6 +55,7 @@ io.on('connection', (socket) => {
     socket.player = player;
     const roomId = randomstring.generate({ length: 6, capitalization: 'uppercase' });
     const room = { id: roomId, state: 'lobby', players: { [socket.id]: socket } };
+    console.log('created room ' + room.id);
     rooms[roomId] = room;
     socket.room = room;
     socket.emit('lobby', roomLobby(room));
